@@ -1,5 +1,6 @@
 ﻿using BookStoreModels;
 using Microsoft.Extensions.Configuration;
+using System.Threading.Tasks;
 
 namespace BookStoreManager.Manager
 {
@@ -11,5 +12,6 @@ namespace BookStoreManager.Manager
         string Login(UserLoginModel userData);
         string GenerateToken(string email);
         string ResetPassword(UserLoginModel userData);
+        Task<string> ForgotPassword(string email);
     }
 }

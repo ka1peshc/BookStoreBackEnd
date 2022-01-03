@@ -10,6 +10,9 @@ using BookStoreModels;
 using MySql.Data.MySqlClient;
 using System.Data;
 using StackExchange.Redis;
+using System.Net.Mail;
+using System.Threading.Tasks;
+using Experimental.System.Messaging;
 
 namespace BookStoreRepository.Repository
 {
@@ -112,6 +115,11 @@ namespace BookStoreRepository.Repository
             }
         }
 
+        /// <summary>
+        /// Reset password using email and new password
+        /// </summary>
+        /// <param name="user">UserLoginModel</param>
+        /// <returns>string msg</returns>
         public string ResetPassword(UserLoginModel user)
         {
             try
@@ -133,6 +141,58 @@ namespace BookStoreRepository.Repository
             {
                 throw new ArgumentNullException(e.Message);
             }
+        }
+        public async Task<string> ForgotPassword(string email)
+        {
+            try
+            {
+                MailMessage mail = new MailMessage();
+                SmtpClient SmtpServer = new SmtpClient("smtp.gmail.com");
+                mail.From = new MailAddress(this.config["Credentials:EmailId"]);
+                mail.To.Add(email);
+                mail.Subject = "Test Mail";
+                SendMSMQ();
+                mail.Body = ReceiveMSMQ();
+                SmtpServer.Port = 587;
+                SmtpServer.Credentials = new System.Net.NetworkCredential(this.config["Credentials:EmailId"], this.config["Credentials:EmailPassword"]);
+                SmtpServer.EnableSsl = true;
+                SmtpServer.Send(mail);
+                return "Email send Successfully";
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        /// <summary>
+        /// Create a Queue to send email
+        /// </summary>
+        public void SendMSMQ()
+        {
+            MessageQueue messageQueue;
+            if (MessageQueue.Exists(@".\Private$\Fundoo"))
+            {
+                messageQueue = new MessageQueue(@".\Private$\Fundoo");
+            }
+            else
+            {
+                messageQueue = MessageQueue.Create(@".\Private$\Fundoo");
+            }
+            string body = "This is for Testing SMTP mail from GMAIL";
+            messageQueue.Label = "Mail Body";
+            messageQueue.Send(body);
+        }
+
+        /// <summary>
+        /// Recive email
+        /// </summary>
+        /// <returns>String</returns>
+        public string ReceiveMSMQ()
+        {
+            MessageQueue messageQueue = new MessageQueue(@".\Private$\Fundoo");
+            var receivemsg = messageQueue.Receive();
+            return receivemsg.ToString();
         }
         public string EncryptPassword(string password)
         {

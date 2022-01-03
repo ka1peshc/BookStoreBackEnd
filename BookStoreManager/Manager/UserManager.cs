@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 
 namespace BookStoreManager.Manager
 {
@@ -60,6 +61,22 @@ namespace BookStoreManager.Manager
             try
             {
                 return this.repository.ResetPassword(userData);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        /// <summary>
+        /// Getting email to pass token
+        /// </summary>
+        /// <param name="email">String email</param>
+        /// <returns>http response</returns>
+        public async Task<string> ForgotPassword(string email)
+        {
+            try
+            {
+                return await this.repository.ForgotPassword(email);
             }
             catch (Exception ex)
             {

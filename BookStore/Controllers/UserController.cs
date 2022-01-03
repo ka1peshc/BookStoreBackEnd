@@ -78,6 +78,11 @@ namespace BookStore.Controllers
             }
         }
 
+        /// <summary>
+        /// Check if reset password successful
+        /// </summary>
+        /// <param name="userData">UserLoginModel class</param>
+        /// <returns>Http response</returns>
         [HttpPut]
         [Route("api/resetpassword")]
         public IActionResult ResetPassword([FromBody] UserLoginModel userData)
@@ -87,6 +92,33 @@ namespace BookStore.Controllers
                 string result = this.manager.ResetPassword(userData);
                 if (result.Equals("Password Update Successful"))
                 {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result, Data = " Session data" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        /// <summary>
+        /// Call forget api using params where key=email and value=mailid
+        /// </summary>
+        /// <param name="email">Email in string</param>
+        /// <returns>Http response</returns>
+        [HttpPost]
+        [Route("api/forgotpassword")]
+        public async Task<IActionResult> ForgotPassword(string email)
+        {
+            try
+            {
+                string result = await this.manager.ForgotPassword(email);
+                if (result == "Email send Successfully")
+                {                    
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result, Data = " Session data" });
                 }
                 else
