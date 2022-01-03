@@ -10,5 +10,6 @@ namespace BookStoreManager.Manager
         string Register(UserModel userData);
         string Login(UserLoginModel userData);
         string GenerateToken(string email);
+        string ResetPassword(UserLoginModel userData);
     }
 }

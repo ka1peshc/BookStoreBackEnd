@@ -22,7 +22,11 @@ namespace BookStoreRepository.Repository
             this.config = configration;
         }
 
-
+        /// <summary>
+        /// Register New user and check if email already exist
+        /// </summary>
+        /// <param name="user">UserModel class</param>
+        /// <returns>string message</returns>
         public string Register(UserModel user)
         {
             try
@@ -59,7 +63,11 @@ namespace BookStoreRepository.Repository
                 throw new ArgumentNullException(e.Message);
             }
         }
-
+        /// <summary>
+        /// Authanticate user email and password
+        /// </summary>
+        /// <param name="user">UserLoginModel class</param>
+        /// <returns>string message</returns>
         public string Login(UserLoginModel user)
         {
             try
@@ -104,6 +112,28 @@ namespace BookStoreRepository.Repository
             }
         }
 
+        public string ResetPassword(UserLoginModel user)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (MySqlConnection con = new MySqlConnection(ConnectionStrings))
+                {
+                    MySqlCommand cmd = new MySqlCommand("sp_UpdateUser", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@email", user.Email);
+                    cmd.Parameters.AddWithValue("@newPassword", EncryptPassword(user.Password));
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    return "Password Update Successful";
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new ArgumentNullException(e.Message);
+            }
+        }
         public string EncryptPassword(string password)
         {
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();

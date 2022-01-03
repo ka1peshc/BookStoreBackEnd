@@ -77,5 +77,27 @@ namespace BookStore.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpPut]
+        [Route("api/resetpassword")]
+        public IActionResult ResetPassword([FromBody] UserLoginModel userData)
+        {
+            try
+            {
+                string result = this.manager.ResetPassword(userData);
+                if (result.Equals("Password Update Successful"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result, Data = " Session data" });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

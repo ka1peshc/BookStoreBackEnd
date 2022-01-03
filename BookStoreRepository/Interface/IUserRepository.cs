@@ -9,5 +9,6 @@ namespace BookStoreRepository.Repository
         string EncryptPassword(string password);
         string Register(UserModel user);
         string Login(UserLoginModel user);
+        string ResetPassword(UserLoginModel user);
     }
 }
