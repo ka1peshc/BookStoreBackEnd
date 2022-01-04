@@ -51,15 +51,13 @@ namespace BookStore.Controllers
                 {
                     ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                     IDatabase database = connectionMultiplexer.GetDatabase();
-                    string firstName = database.StringGet("First Name");
-                    string lastName = database.StringGet("Last Name");
+                    string fullName = database.StringGet("Full Name");
                     string email = database.StringGet("email");
                     int userId = Convert.ToInt32(database.StringGet("User Id"));
                     UserModel userDetail = new UserModel
                     {
                         userId = userId,
-                        userFirstName = firstName,
-                        userLastName = lastName,
+                        userFullName = fullName,
                         userEmail = email
                     };
                     string tokenString = this.manager.GenerateToken(userData.Email);

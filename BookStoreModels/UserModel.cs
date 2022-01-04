@@ -11,9 +11,7 @@ namespace BookStoreModels
         [Required]
         public int userId { get; set; }
         [Required]
-        public string userFirstName { get; set; }
-        [Required]
-        public string userLastName { get; set; }
+        public string userFullName { get; set; }
         [Required]
         public string userEmail { get; set; }
         [Required]

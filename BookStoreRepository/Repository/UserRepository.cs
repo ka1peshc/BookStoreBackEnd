@@ -42,8 +42,7 @@ namespace BookStoreRepository.Repository
                 {
                     MySqlCommand cmd = new MySqlCommand("sp_AddUser", con);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@firstName", user.userFirstName);
-                    cmd.Parameters.AddWithValue("@lastName", user.userLastName);
+                    cmd.Parameters.AddWithValue("@fullName", user.userFullName);
                     cmd.Parameters.AddWithValue("@email", user.userEmail);
                     cmd.Parameters.AddWithValue("@userPass", protectedPassword);
                     cmd.Parameters.AddWithValue("@userPhone", user.userPhoneNo);
@@ -90,14 +89,12 @@ namespace BookStoreRepository.Repository
                         while (rdr.Read())
                         {
                             userDetail.userId = Convert.ToInt32(rdr["userId"]);
-                            userDetail.userFirstName = rdr["userFirstName"].ToString();
-                            userDetail.userLastName = rdr["userLastName"].ToString();
+                            userDetail.userFullName = rdr["userFullName"].ToString();
                             userDetail.userEmail = rdr["userEmail"].ToString();
                         }
                         ConnectionMultiplexer connectionMultiplexer = ConnectionMultiplexer.Connect("127.0.0.1:6379");
                         IDatabase database = connectionMultiplexer.GetDatabase();
-                        database.StringSet(key: "First Name", userDetail.userFirstName);
-                        database.StringSet(key: "Last Name", userDetail.userLastName);
+                        database.StringSet(key: "Full Name", userDetail.userFullName);
                         database.StringSet(key: "email", userDetail.userEmail);
                         database.StringSet(key: "User Id", userDetail.userId);
                         con.Close();
