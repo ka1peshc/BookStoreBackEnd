@@ -68,5 +68,33 @@ namespace BookStoreRepository.Repository
             }
         }
 
+        public string UpdateBook(BookModel model)
+        {
+            try
+            {
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (MySqlConnection con = new MySqlConnection(ConnectionStrings))
+                {
+                    MySqlCommand cmd = new MySqlCommand("sp_UpdateBook", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@spBookId", model.bookId);
+                    cmd.Parameters.AddWithValue("@spBookName", model.bookName);
+                    cmd.Parameters.AddWithValue("@spBookAuthor", model.bookAuthor);
+                    cmd.Parameters.AddWithValue("@spBookDetail", model.bookDetail);
+                    cmd.Parameters.AddWithValue("@spBookActualPrise", model.bookActualPrice);
+                    cmd.Parameters.AddWithValue("@spBookDiscountPrice", model.bookDiscountPrice);
+                    cmd.Parameters.AddWithValue("@spBookImageUrl", model.bookImageURL);
+                    cmd.Parameters.AddWithValue("@spBookQuantity", model.bookQuantity);
+                    con.Open();
+                    cmd.ExecuteNonQuery();
+                    con.Close();
+                    return "Update Book Successful";
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                throw new ArgumentNullException(ex.Message);
+            }
+        }
     }
 }

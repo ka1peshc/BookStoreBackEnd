@@ -9,5 +9,6 @@ namespace BookStoreManager.Manager
 
         string AddNewBook(BookModel book);
         string DeleteBook(int bookId);
+        string UpdateBook(BookModel book);
     }
 }

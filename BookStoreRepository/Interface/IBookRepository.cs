@@ -8,5 +8,6 @@ namespace BookStoreRepository.Repository
 
         string AddNewBook(BookModel model);
         string DeleteBook(int bookId);
+        string UpdateBook(BookModel model);
     }
 }

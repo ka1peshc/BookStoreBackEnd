@@ -58,5 +58,26 @@ namespace BookStore.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+        [HttpPut]
+        [Route("book/updateBook")]
+        public IActionResult UpdateBook([FromBody] BookModel book)
+        {
+            try
+            {
+                string result = this.manager.UpdateBook(book);
+                if (result.Equals("Update Book Successful"))
+                {
+                    return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }
