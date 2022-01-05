@@ -52,5 +52,29 @@ namespace BookStoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+
+        public IEnumerable<BookModel> DisplayOneBook(int bookId)
+        {
+            try
+            {
+                return this.repository.DisplayOneBook(bookId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+
+        public IEnumerable<BookModel> DisplayAllBooks()
+        {
+            try
+            {
+                return this.repository.DisplayAllBooks();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }

@@ -96,5 +96,95 @@ namespace BookStoreRepository.Repository
                 throw new ArgumentNullException(ex.Message);
             }
         }
+
+        public IEnumerable<BookModel> DisplayOneBook(int bookId)
+        {
+            try
+            {
+                List<BookModel> tempList = new List<BookModel>();
+                IEnumerable<BookModel> result;
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (MySqlConnection con = new MySqlConnection(ConnectionStrings))
+                {
+                    MySqlCommand cmd = new MySqlCommand("sp_DisplayOneBook", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@spBookId", bookId);
+                    con.Open();
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    BookModel bm = new BookModel();
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            bm.bookId = Convert.ToInt32(rdr["bookId"]);
+                            bm.bookName = rdr["bookName"].ToString();
+                            bm.bookAuthor = rdr["bookAuthor"].ToString();
+                            bm.bookDetail = rdr["bookDetail"].ToString();
+                            bm.bookActualPrice = Convert.ToInt32(rdr["bookActualPrice"]);
+                            bm.bookDiscountPrice = Convert.ToInt32(rdr["bookDiscountPrice"]);
+                            bm.bookQuantity = Convert.ToInt32(rdr["bookQuantity"]);
+                            bm.bookImageURL = rdr["bookImageURL"].ToString();
+                            if(rdr["rating"] != null)
+                            {
+                                bm.avgRating = Convert.ToInt32(rdr["rating"]);
+                            }
+                            if(rdr["total"] != null)
+                            {
+                                bm.countRating = Convert.ToInt32(rdr["total"]);
+                            }
+                        }
+                    }
+                    tempList.Add(bm);
+                    result = tempList;
+                    return result;
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new ArgumentNullException(e.Message);
+            }
+        }
+
+        public IEnumerable<BookModel> DisplayAllBooks()
+        {
+            try
+            {
+                List<BookModel> tempList = new List<BookModel>();
+                IEnumerable<BookModel> result;
+                string ConnectionStrings = config.GetConnectionString(connectionString);
+                using (MySqlConnection con = new MySqlConnection(ConnectionStrings))
+                {
+                    MySqlCommand cmd = new MySqlCommand("sp_DisplayAllBooks", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    con.Open();
+                    MySqlDataReader rdr = cmd.ExecuteReader();
+
+                    
+                    if (rdr.HasRows)
+                    {
+                        while (rdr.Read())
+                        {
+                            BookModel bm = new BookModel();
+                            bm.bookId = Convert.ToInt32(rdr["bookId"]);
+                            bm.bookName = rdr["bookName"].ToString();
+                            bm.bookAuthor = rdr["bookAuthor"].ToString();
+                            bm.bookDetail = rdr["bookDetail"].ToString();
+                            bm.bookActualPrice = Convert.ToInt32(rdr["bookActualPrice"]);
+                            bm.bookDiscountPrice = Convert.ToInt32(rdr["bookDiscountPrice"]);
+                            bm.bookQuantity = Convert.ToInt32(rdr["bookQuantity"]);
+                            bm.bookImageURL = rdr["bookImageURL"].ToString();
+                            tempList.Add(bm);
+                        }
+                    }
+                    result = tempList;
+                    return result;
+                }
+            }
+            catch (ArgumentNullException e)
+            {
+                throw new ArgumentNullException(e.Message);
+            }
+        }
     }
 }

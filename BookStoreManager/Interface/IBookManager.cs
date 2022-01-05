@@ -1,5 +1,6 @@
 ﻿using BookStoreModels;
 using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
 
 namespace BookStoreManager.Manager
 {
@@ -10,5 +11,7 @@ namespace BookStoreManager.Manager
         string AddNewBook(BookModel book);
         string DeleteBook(int bookId);
         string UpdateBook(BookModel book);
+        IEnumerable<BookModel> DisplayOneBook(int bookId);
+        IEnumerable<BookModel> DisplayAllBooks();
     }
 }

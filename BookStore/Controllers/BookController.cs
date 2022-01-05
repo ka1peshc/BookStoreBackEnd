@@ -79,5 +79,52 @@ namespace BookStore.Controllers
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
+
+        [HttpGet]
+        [Route("book/getOneBook")]
+        public IActionResult GetOneBook(int bookId)
+        {
+            try
+            {
+                IEnumerable<BookModel> result = this.manager.DisplayOneBook(bookId);
+                if ((int)result.Count() != 0)
+                {
+                    return this.Ok(new { Status = true, Data = result });
+                }
+                else
+                {
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No notes found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
+
+        [HttpGet]
+        [Route("book/getAllBooks")]
+        public IActionResult GetAllBooks()
+        {
+            try
+            {
+                IEnumerable<BookModel> result = this.manager.DisplayAllBooks();
+                if ((int)result.Count() != 0)
+                {
+                    //this.logger.Info(result + Environment.NewLine + DateTime.Now);
+                    return this.Ok(new { Status = true, Data = result });
+                }
+                else
+                {
+                    //this.logger.Warn(result + Environment.NewLine + DateTime.Now);
+                    return this.BadRequest(new ResponseModel<string>() { Status = false, Message = "No notes found" });
+                }
+            }
+            catch (Exception ex)
+            {
+                //this.logger.Error(ex.Message + Environment.NewLine + DateTime.Now);
+                return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
+            }
+        }
     }
 }

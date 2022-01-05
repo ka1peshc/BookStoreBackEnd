@@ -1,4 +1,5 @@
 ﻿using BookStoreModels;
+using System.Collections.Generic;
 
 namespace BookStoreRepository.Repository
 {
@@ -9,5 +10,7 @@ namespace BookStoreRepository.Repository
         string AddNewBook(BookModel model);
         string DeleteBook(int bookId);
         string UpdateBook(BookModel model);
+        IEnumerable<BookModel> DisplayOneBook(int bookId);
+        IEnumerable<BookModel> DisplayAllBooks();
     }
 }
