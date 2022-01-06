@@ -28,5 +28,38 @@ namespace BookStoreManager.Manager
                 throw new Exception(ex.Message);
             }
         }
+        public string DeleteItem(int itemId)
+        {
+            try
+            {
+                return this.repository.DeleteItemFromCart(itemId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public string UpdateItemQuantity(int itemId,int count)
+        {
+            try
+            {
+                return this.repository.UpdateItemQuantity(itemId,count);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
+        public IEnumerable<CartModel> DisplayCartItem(int userId)
+        {
+            try
+            {
+                return this.repository.GetItemsInCart(userId);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message);
+            }
+        }
     }
 }
