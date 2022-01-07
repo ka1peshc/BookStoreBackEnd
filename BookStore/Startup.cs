@@ -40,6 +40,8 @@ namespace BookStore
             services.AddTransient<ICartManager, CartManager>();
             services.AddTransient<IAddressRepository, AddressRepository>();
             services.AddTransient<IAddressManager, AddressManager>();
+            services.AddTransient<IWishListRepository, WishListRepository>();
+            services.AddTransient<IWishListManager, WishListManager>();
             services.AddCors(options =>
             options.AddPolicy(
             "AllowAllHeaders", builder =>
