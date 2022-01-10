@@ -32,7 +32,7 @@ namespace BookStoreManager.Manager
         {
             try
             {
-                return this.repository.DisplayOrderList(bookId);
+                return this.repository.DisplayReviewList(bookId);
             }
             catch (Exception ex)
             {

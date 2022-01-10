@@ -22,7 +22,7 @@ namespace BookStore.Controllers
             try
             {
                 string result = this.manager.AddNewReview(item);
-                if (result.Equals("Item added to cart"))
+                if (result.Equals("Review added successful"))
                 {
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result });
                 }

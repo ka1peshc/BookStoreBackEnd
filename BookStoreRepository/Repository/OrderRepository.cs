@@ -28,6 +28,7 @@ namespace BookStoreRepository.Repository
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@spUserId", om.UserId);
                     cmd.Parameters.AddWithValue("@spBookId", om.BookId);
+                    cmd.Parameters.AddWithValue("@spAddressId", om.AddressId);
                     cmd.Parameters.AddWithValue("@spOrderDate", om.OrderDate);
                     cmd.Parameters.AddWithValue("@spNumBooks", om.BookQuantity);
                     con.Open();
@@ -109,6 +110,8 @@ namespace BookStoreRepository.Repository
                             om.OrderId = Convert.ToInt32(rdr["orderId"]);
                             um.userPhoneNo = Convert.ToDouble(rdr["userPhoneNum"]);
                             am.Address = rdr["address"].ToString();
+                            om.UserModel = um;
+                            om.AddressModel = am;
                             tempList.Add(om);
                         }
                         return result = tempList;

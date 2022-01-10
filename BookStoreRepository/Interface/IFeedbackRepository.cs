@@ -8,6 +8,6 @@ namespace BookStoreRepository.Repository
         string connectionString { get; set; }
 
         string AddNewReview(FeedbackModel fm);
-        IEnumerable<FeedbackModel> DisplayOrderList(int bookId);
+        IEnumerable<FeedbackModel> DisplayReviewList(int bookId);
     }
 }

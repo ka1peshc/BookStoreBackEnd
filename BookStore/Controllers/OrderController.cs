@@ -65,7 +65,7 @@ namespace BookStore.Controllers
         {
             try
             {
-                IEnumerable<OrderModel> result = this.manager.DisplayOrderList(orderId);
+                IEnumerable<OrderModel> result = this.manager.DisplaySuccessfulOrder(orderId);
                 if ((int)result.Count() != 0)
                 {
                     return this.Ok(new { Status = true, Data = result });

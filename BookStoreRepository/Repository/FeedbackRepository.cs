@@ -24,7 +24,7 @@ namespace BookStoreRepository.Repository
                 string ConnectionStrings = config.GetConnectionString(connectionString);
                 using (MySqlConnection con = new MySqlConnection(ConnectionStrings))
                 {
-                    MySqlCommand cmd = new MySqlCommand("sp_InsertOrder", con);
+                    MySqlCommand cmd = new MySqlCommand("sp_AddReview", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@spUserId", fm.UserId);
                     cmd.Parameters.AddWithValue("@spBookId", fm.BookId);
@@ -33,7 +33,7 @@ namespace BookStoreRepository.Repository
                     con.Open();
                     cmd.ExecuteNonQuery();
                     con.Close();
-                    return "R added successful";
+                    return "Review added successful";
                 }
             }
             catch (ArgumentNullException e)
