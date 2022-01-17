@@ -24,7 +24,7 @@ namespace BookStoreModels
         public string bookImageURL { get; set; }
         [Required]
         public int bookQuantity { get; set; }
-        public int avgRating { get; set; }
+        public float avgRating { get; set; }
         public int countRating { get; set; }
     }
 }

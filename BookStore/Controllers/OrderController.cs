@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("order/[Controller]")]
     public class OrderController : ControllerBase
     {
         private readonly IOrderManager manager;
@@ -16,7 +18,7 @@ namespace BookStore.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("order/addNewOrder")]
+        [Route("addNewOrder")]
         public IActionResult NewBook([FromBody] OrderModel item)
         {
             try
@@ -38,7 +40,7 @@ namespace BookStore.Controllers
         }
         
         [HttpGet]
-        [Route("order/displayOrder")]
+        [Route("displayOrder")]
         public IActionResult DisplayOrderItem(int userId)
         {
             try
@@ -60,7 +62,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [Route("order/displaySuccessOrder")]
+        [Route("displaySuccessOrder")]
         public IActionResult DisplaySuccessOrder(int orderId)
         {
             try

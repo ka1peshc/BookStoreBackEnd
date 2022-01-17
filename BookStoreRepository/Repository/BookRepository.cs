@@ -125,14 +125,9 @@ namespace BookStoreRepository.Repository
                             bm.bookDiscountPrice = Convert.ToInt32(rdr["bookDiscountPrice"]);
                             bm.bookQuantity = Convert.ToInt32(rdr["bookQuantity"]);
                             bm.bookImageURL = rdr["bookImageURL"].ToString();
-                            if(rdr["rating"] != null)
-                            {
-                                bm.avgRating = Convert.ToInt32(rdr["rating"]);
-                            }
-                            if(rdr["total"] != null)
-                            {
-                                bm.countRating = Convert.ToInt32(rdr["total"]);
-                            }
+                            bm.avgRating = Convert.ToInt32(rdr["bookRating"]);
+                            bm.countRating = Convert.ToInt32(rdr["bookRatingCount"]);
+                            
                         }
                     }
                     tempList.Add(bm);
@@ -174,6 +169,8 @@ namespace BookStoreRepository.Repository
                             bm.bookDiscountPrice = Convert.ToInt32(rdr["bookDiscountPrice"]);
                             bm.bookQuantity = Convert.ToInt32(rdr["bookQuantity"]);
                             bm.bookImageURL = rdr["bookImageURL"].ToString();
+                            bm.avgRating = Convert.ToInt32(rdr["bookRating"]);
+                            bm.countRating = Convert.ToInt32(rdr["bookRatingCount"]);
                             tempList.Add(bm);
                         }
                     }

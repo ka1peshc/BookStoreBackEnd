@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("feedback/[Controller]")]
     public class FeedbackController : ControllerBase
     {
         private readonly IFeedbackManager manager;
@@ -16,7 +18,7 @@ namespace BookStore.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("feedback/addNewReview")]
+        [Route("addNewReview")]
         public IActionResult AddNewReview([FromBody] FeedbackModel item)
         {
             try
@@ -37,7 +39,7 @@ namespace BookStore.Controllers
             }
         }
         [HttpGet]
-        [Route("feedback/displayReviews")]
+        [Route("displayReviews")]
         public IActionResult DisplayReview(int bookId)
         {
             try

@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("Cart/[Controller]")]
     public class CartController : ControllerBase
     {
         private readonly ICartManager manager;
@@ -16,7 +18,7 @@ namespace BookStore.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("Cart/addNewItem")]
+        [Route("addNewItem")]
         public IActionResult NewBook([FromBody] CartModel item)
         {
             try
@@ -37,7 +39,7 @@ namespace BookStore.Controllers
             }
         }
         [HttpDelete]
-        [Route("Cart/deleteItem")]
+        [Route("deleteItem")]
         public IActionResult DeleteItem(int itemId)
         {
             try
@@ -59,7 +61,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPut]
-        [Route("Cart/updateBookQuantity")]
+        [Route("updateBookQuantity")]
         public IActionResult UpdateBookQuantity(int itemId,int count)
         {
             try
@@ -81,7 +83,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [Route("Cart/displayCartItems")]
+        [Route("displayCartItems")]
         public IActionResult DisplayCartItem(int userId)
         {
             try

@@ -1,6 +1,8 @@
 ﻿using BookStoreManager.Manager;
 using BookStoreModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using StackExchange.Redis;
 using System;
 using System.Collections.Generic;
@@ -9,15 +11,26 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("api/[Controller]")]
     public class UserController : ControllerBase
     {
         private readonly IUserManager manager;
+        const string SessionUserFullname = "_Name";
+        const string SessionUserEmail = "_Email";
+        const string SessionUserId = "_Id";
+        private readonly ILogger logger ;
+        //public UserController(IUserManager manager, ILogger log)
+        //{
+        //    this.manager = manager;
+        //    logger = log;
+        //}
         public UserController(IUserManager manager)
         {
             this.manager = manager;
         }
         [HttpPost]
-        [Route("api/register")]
+        [Route("register")]
         public IActionResult Register([FromBody]UserModel userData)
         {
             try
@@ -25,23 +38,23 @@ namespace BookStore.Controllers
                 string result = this.manager.Register(userData);
                 if (result.Equals("Registration Successful"))
                 {
-                    //this.logger.Info(result + Environment.NewLine + DateTime.Now);
+                    //logger.LogInformation(result + Environment.NewLine + DateTime.Now);
                     return this.Ok(new ResponseModel<string>() { Status = true, Message = result, Data = " Session data" });
                 }
                 else
                 {
-                    //this.logger.Warn(result + Environment.NewLine + DateTime.Now);
+                    //logger.LogWarning(result + Environment.NewLine + DateTime.Now);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                //this.logger.Error(ex.Message + Environment.NewLine + DateTime.Now);
+                //logger.LogError(ex.Message + Environment.NewLine + DateTime.Now);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
         [HttpPost]
-        [Route("api/login")]
+        [Route("login")]
         public IActionResult Login([FromBody] UserLoginModel userData)
         {
             try
@@ -54,6 +67,9 @@ namespace BookStore.Controllers
                     string fullName = database.StringGet("Full Name");
                     string email = database.StringGet("email");
                     int userId = Convert.ToInt32(database.StringGet("User Id"));
+                    HttpContext.Session.SetString(SessionUserFullname, fullName);
+                    HttpContext.Session.SetString(SessionUserEmail, email);
+                    HttpContext.Session.SetInt32(SessionUserId, userId);
                     UserModel userDetail = new UserModel
                     {
                         userId = userId,
@@ -61,17 +77,18 @@ namespace BookStore.Controllers
                         userEmail = email
                     };
                     string tokenString = this.manager.GenerateToken(userData.Email);
+                    //logger.LogInformation(result + Environment.NewLine + DateTime.Now);
                     return this.Ok(new { Status = true, Message = result, Data = userDetail, Token = tokenString });
                 }
                 else
                 {
-                    //this.logger.Warn(result + Environment.NewLine + DateTime.Now);
+                    //logger.LogWarning(result + Environment.NewLine + DateTime.Now);
                     return this.BadRequest(new ResponseModel<string>() { Status = false, Message = result });
                 }
             }
             catch (Exception ex)
             {
-                //this.logger.Error(ex.Message + Environment.NewLine + DateTime.Now);
+                //logger.LogError(ex.Message + Environment.NewLine + DateTime.Now);
                 return this.NotFound(new ResponseModel<string>() { Status = false, Message = ex.Message });
             }
         }
@@ -82,7 +99,7 @@ namespace BookStore.Controllers
         /// <param name="userData">UserLoginModel class</param>
         /// <returns>Http response</returns>
         [HttpPut]
-        [Route("api/resetpassword")]
+        [Route("resetpassword")]
         public IActionResult ResetPassword([FromBody] UserLoginModel userData)
         {
             try
@@ -109,7 +126,7 @@ namespace BookStore.Controllers
         /// <param name="email">Email in string</param>
         /// <returns>Http response</returns>
         [HttpPost]
-        [Route("api/forgotpassword")]
+        [Route("forgotpassword")]
         public async Task<IActionResult> ForgotPassword(string email)
         {
             try

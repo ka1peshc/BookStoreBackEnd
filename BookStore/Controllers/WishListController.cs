@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("wishList/[Controller]")]
     public class WishListController: Controller
     {
         private readonly IWishListManager manager;
@@ -16,7 +18,7 @@ namespace BookStore.Controllers
             this.manager = manager;
         }
         [HttpGet]
-        [Route("wishList/displayItems")]
+        [Route("displayItems")]
         public IActionResult DisplayWishListItem(int userId)
         {
             try
@@ -38,7 +40,7 @@ namespace BookStore.Controllers
         }
 
         [HttpPost]
-        [Route("wishList/addItem")]
+        [Route("addItem")]
         public IActionResult AddNewItem([FromBody] WishListModel model)
         {
             try
@@ -60,7 +62,7 @@ namespace BookStore.Controllers
         }
         
         [HttpDelete]
-        [Route("wishList/removeItem")]
+        [Route("removeItem")]
         public IActionResult RemoveItem(int wishListItemId)
         {
             try

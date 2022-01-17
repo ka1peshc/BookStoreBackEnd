@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 
 namespace BookStore.Controllers
 {
+    [ApiController]
+    [Route("book/[Controller]")]
     public class BookController : ControllerBase
     {
         private readonly IBookManager manager;
@@ -16,7 +18,7 @@ namespace BookStore.Controllers
             this.manager = manager;
         }
         [HttpPost]
-        [Route("book/newBook")]
+        [Route("newBook")]
         public IActionResult NewBook([FromBody] BookModel book)
         {
             try
@@ -38,7 +40,7 @@ namespace BookStore.Controllers
         }
 
         [HttpDelete]
-        [Route("book/deleteBook")]
+        [Route("deleteBook")]
         public IActionResult DeleteBook(int bookId)
         {
             try
@@ -59,7 +61,7 @@ namespace BookStore.Controllers
             }
         }
         [HttpPut]
-        [Route("book/updateBook")]
+        [Route("updateBook")]
         public IActionResult UpdateBook([FromBody] BookModel book)
         {
             try
@@ -81,7 +83,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [Route("book/getOneBook")]
+        [Route("getOneBook")]
         public IActionResult GetOneBook(int bookId)
         {
             try
@@ -103,7 +105,7 @@ namespace BookStore.Controllers
         }
 
         [HttpGet]
-        [Route("book/getAllBooks")]
+        [Route("getAllBooks")]
         public IActionResult GetAllBooks()
         {
             try
